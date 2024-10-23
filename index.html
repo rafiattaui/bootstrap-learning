@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Themed Website</title>
+    <title>Atta's Website</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Symbols -->
@@ -20,10 +20,10 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif; /* Apply the new font */
+            font-family: 'Poppins', sans-serif;
             background-color: #121212; /* Very dark background */
             color: #f5f5f5; /* Bright accent color for text */
-            transition: filter 0.5s; /* Smooth transition for the blur effect */
+            transition: filter 0.5s, background-color 0.5s; /* Smooth transition for brightness */
         }
 
         #particles-js {
@@ -132,6 +132,19 @@
         transform: scale(1.1);
         background-color: #0069d9; /* Adjust the color as needed */
     }
+
+    /* Add CSS to hide the divs initially */
+.hidden-div {
+    opacity: 0;
+    transform: scale(0.8); /* Start slightly smaller */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition */
+}
+
+/* Add a class for when the div should pop up */
+.show-div {
+    opacity: 1;
+    transform: scale(1); /* Grow to full size */
+}
     
     </style>
 </head>
@@ -179,11 +192,11 @@
 
     <!-- Main content -->
     <div class="container">
-        <div class="bg-black rounded mx-auto text-center container-shadow" style="max-width: 720px; padding: 20px;">
+        <div class="bg-black rounded mx-auto text-center container-shadow hidden-div" id="div1" style="max-width: 720px; padding: 20px;">
             <h2 class="text-light">Welcome to My Portfolio!</h2>
             <p class="text-light">My name is Muhammad Rafi Athallah. My journey in coding and computers has been fueled by curiosity and a desire to solve real-world problems. Explore my projects to see what I've been working on!</p>
         </div>
-        <div class="bg-black rounded mx-auto mt-4 container-shadow" style="max-width: 720px; padding: 20px;">
+        <div class="bg-black rounded mx-auto mt-4 container-shadow hidden-div" id="div2" style="max-width: 720px; padding: 20px;">
             <h2 class="text-light">About Me</h2>
             <p class="text-light">Currently a computer science student, I'm very passionate about computers and programming as I find myself fascinated by them as I continue to learn more and more about them.</p>
             <ul class="list-group" style="background-color: #2054BE; margin-bottom: 16px;">
@@ -194,39 +207,70 @@
             </ul>
         </div>
 
-        <div class="bg-black rounded mx-auto mt-4 container-shadow" style="max-width: 720px; padding: 20px;">
-          <div class="card" style="width: 18rem;">
+        <div class="bg-black rounded mx-auto mt-4 container-shadow hidden-div" id="div3" style="max-width: 650px; padding: 20px;">
+        <div class="row d-flex justify-content-center">
+          <div class="card col-md-6 col-lg-4 me-4" style="width: 18rem;">
               <img src="https://images.datacamp.com/image/upload/v1661355364/Machine_Learning_1_5fcdbe9f53.png"
                   class="card-img-top" alt="Machine Learning Project">
               <div class="card-body">
                   <h5 class="card-title">Machine Learning Project</h5>
                   <p class="card-text">Currently working on a Machine Learning Project involving CNN's, and neural
                       networks.</p>
-                  <a href="#" class="btn btn-primary">GitHub Repository</a>
+                  <a href="https://github.com/rafiattaui" class="btn btn-primary">GitHub Repository</a>
               </div>
           </div>
-          <div class="card" style="width:"
+          <div class="card col-md-6" style="width: 18rem;">
+              <img src="https://cdn.prod.website-files.com/62e3ee10882dc50bcae8d07a/634816d46fc4a32b2a583416_codewars-og-image.png"
+                  class="card-img-top" alt="Machine Learning Project">
+              <div class="card-body">
+                  <h5 class="card-title">Codewars Profile</h5>
+                  <p class="card-text">Take a look at my Codewars profile where I solve problems to practice for fun and practice.</p>
+                  <a href="https://www.codewars.com/users/rikkaar" target="_blank" class="btn btn-primary">Codewars Profile</a>
+              </div>
+          </div>
+          </div>
       </div>
     </div>
 
     <script>
         // Loading Screen Logic
         let progress = 0;
-        const loadingOverlay = document.getElementById("loadingOverlay");
-        const progressBar = document.getElementById("progressBar");
+const loadingOverlay = document.getElementById("loadingOverlay");
+const progressBar = document.getElementById("progressBar");
 
-        const interval = setInterval(() => {
-            if (progress >= 100) {
-                clearInterval(interval);
-                loadingOverlay.style.opacity = '0'; // Fade out
-                setTimeout(() => loadingOverlay.style.display = 'none', 500); // Remove from display
-                document.getElementById("navbar").classList.add("show"); // Show navbar
-            } else {
-                progress += 20; // Increment the progress
-                progressBar.style.width = `${progress}%`;
-                progressBar.setAttribute('aria-valuenow', progress);
-            }
-        }, 500);
+// Get references to the hidden divs
+const div1 = document.getElementById("div1");
+const div2 = document.getElementById("div2");
+const div3 = document.getElementById("div3");
+
+const interval = setInterval(() => {
+    if (progress >= 100) {
+        clearInterval(interval);
+        loadingOverlay.style.opacity = '0'; // Fade out loading screen
+        setTimeout(() => loadingOverlay.style.display = 'none', 500); // Hide loading screen
+        document.getElementById("navbar").classList.add("show"); // Show navbar
+    } else {
+        progress += 20; // Increment progress by 20% per step
+        progressBar.style.width = `${progress}%`;
+        progressBar.setAttribute('aria-valuenow', progress);
+
+        // Show div1 at 40% progress
+        if (progress >= 40 && !div1.classList.contains("show-div")) {
+            div1.classList.add("show-div");
+        }
+
+        // Show div2 at 60% progress
+        if (progress >= 60 && !div2.classList.contains("show-div")) {
+            div2.classList.add("show-div");
+        }
+
+        // Show div3 at 80% progress
+        if (progress >= 80 && !div3.classList.contains("show-div")) {
+            div3.classList.add("show-div");
+        }
+    }
+}, 500);
+
 
         // Initialize Particles
         particlesJS("particles-js", {
